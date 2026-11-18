@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>무료 입양하세요 펫 받기 사이트!</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@500;700;900&display=swap">
+<style>
+:root{--bg:#070718;--text:#ffffff;--sub:#c9c6f5;--gold:#ffd23f;--pink:#ff4fa3;--ice:#6ff0ff;--violet:#8b5cff;--line:rgba(255,255,255,.18);
+--title:"Black Han Sans","Noto Sans KR","Apple SD Gothic Neo",system-ui,sans-serif;--body:"Noto Sans KR","Apple SD Gothic Neo",system-ui,sans-serif;
+color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--body);overflow-x:hidden}
+#fx{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.aurora{position:fixed;inset:0;z-index:0;background:radial-gradient(700px 500px at 15% 10%,#6a2cff66,transparent 70%),radial-gradient(700px 500px at 90% 90%,#00c2ff55,transparent 70%),radial-gradient(500px 400px at 80% 10%,#ff4fa355,transparent 70%);animation:drift 14s ease-in-out infinite alternate}
+@keyframes drift{to{transform:scale(1.15) translate(-2%,2%)}}
+section{position:relative;z-index:2}
+.glow-text{font-family:var(--title);color:#fff;text-shadow:0 0 12px #ff4fa3aa,0 0 36px #8b5cffcc,0 4px 0 #3a1a8a}
+
+/* INTRO */
+#intro{position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;background:#070718;transition:opacity .8s,visibility .8s}
+#intro.hide{opacity:0;visibility:hidden}
+#intro .line{font-family:var(--title);font-size:clamp(26px,7vw,54px);opacity:0;transform:translateY(24px) scale(.96);filter:blur(10px);transition:all .9s;margin:6px 0;color:#fff;text-shadow:0 0 24px #8b5cffcc}
+#intro .line.on{opacity:1;transform:none;filter:none}
+#intro .line.big{font-size:clamp(36px,10vw,84px);color:var(--gold);text-shadow:0 0 20px #ffd23fcc,0 0 60px #ff4fa3aa}
+#intro .hero{font-size:clamp(90px,24vw,170px);opacity:0;transform:scale(.2) rotate(-25deg);transition:all 1s cubic-bezier(.2,1.7,.4,1);filter:drop-shadow(0 0 30px var(--ice))}
+#intro .hero.on{opacity:1;transform:none;animation:float 3s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-14px)}}
+#start{margin-top:26px;opacity:0;pointer-events:none;transition:opacity .8s}
+#start.on{opacity:1;pointer-events:auto}
+.skip{position:absolute;right:16px;top:calc(14px + env(safe-area-inset-top,0px));background:none;border:1px solid var(--line);color:var(--sub);padding:8px 14px;font-size:13px;box-shadow:none}
+
+/* BUTTONS */
+button,.claim{font-family:var(--body);font-weight:900;cursor:pointer;border:0;border-radius:99px;color:#2a0d4a;background:linear-gradient(90deg,#ffd23f,#ff8fc7);padding:16px 38px;font-size:19px;text-decoration:none;display:inline-block;box-shadow:0 0 0 0 #ffd23f88,0 10px 30px #ff4fa366;animation:pulse 1.8s infinite;transition:transform .15s}
+button:hover,.claim:hover{transform:translateY(-3px) scale(1.04)}
+button:disabled{animation:none;opacity:.55;cursor:not-allowed;transform:none}
+@keyframes pulse{70%{box-shadow:0 0 0 18px #ffd23f00,0 10px 30px #ff4fa366}}
+
+/* MAIN */
+.wrap{max-width:1020px;margin:0 auto;padding:30px 16px 60px;text-align:center}
+.tag{display:inline-block;padding:8px 18px;border-radius:99px;font-weight:900;font-size:14px;color:#2a0d4a;background:var(--gold);letter-spacing:.04em;box-shadow:0 0 24px #ffd23f88}
+h1{margin:16px 0 8px;font-size:clamp(30px,8vw,64px);line-height:1.12}
+.lead{color:var(--sub);font-size:clamp(15px,3.6vw,19px);margin:0 0 28px}
+.grid{display:grid;gap:22px;grid-template-columns:1fr;align-items:start}
+@media(min-width:820px){.grid{grid-template-columns:1.15fr .85fr}}
+.card{background:linear-gradient(160deg,#ffffff1c,#ffffff0a);border:1px solid var(--line);border-radius:28px;padding:22px;backdrop-filter:blur(14px);box-shadow:0 20px 60px #0008}
+.stage{position:relative;width:min(100%,430px);margin:0 auto}
+canvas#wheel{width:100%;height:auto;display:block}
+.pointer{position:absolute;top:-12px;left:50%;transform:translateX(-50%);z-index:3;font-size:44px;filter:drop-shadow(0 4px 8px #000a) drop-shadow(0 0 12px var(--gold));line-height:1}
+#spin{margin-top:22px;font-size:21px}
+.note{color:var(--sub);font-size:14px;margin-top:14px;min-height:20px}
+h2{margin:0 0 14px;font-size:22px;text-align:left;font-family:var(--title);color:#fff}
+.row{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:10px 4px;border-bottom:1px solid var(--line);text-align:left;font-weight:700;font-size:16px;color:#fff}
+.row .bar{height:8px;border-radius:9px;background:#ffffff1f;overflow:hidden;min-width:50px}
+.row .bar i{display:block;height:100%;border-radius:9px}
+.row.rare{color:var(--ice);font-size:17px;text-shadow:0 0 14px #6ff0ffaa}
+.row b{font-variant-numeric:tabular-nums}
+.hint{margin:14px 0 0;color:var(--sub);font-size:13px;text-align:left}
+
+/* RESULT */
+#result{display:none;min-height:100vh;align-items:center;justify-content:center;padding:24px}
+.rcard{max-width:540px;width:100%;text-align:center;position:relative;overflow:hidden}
+.rays{position:absolute;left:50%;top:150px;width:520px;height:520px;margin:-260px 0 0 -260px;background:repeating-conic-gradient(from 0deg,#ffd23f55 0 8deg,transparent 8deg 20deg);border-radius:50%;animation:spinr 12s linear infinite;-webkit-mask:radial-gradient(circle,#000 20%,transparent 68%);mask:radial-gradient(circle,#000 20%,transparent 68%)}
+.rcard.ice .rays{background:repeating-conic-gradient(from 0deg,#6ff0ff66 0 8deg,transparent 8deg 20deg)}
+@keyframes spinr{to{transform:rotate(360deg)}}
+.rcard>*:not(.rays){position:relative}
+.big{font-size:clamp(100px,30vw,170px);line-height:1;margin:14px 0 4px;animation:pop .9s cubic-bezier(.2,1.7,.4,1);filter:drop-shadow(0 0 28px #ffd23fcc)}
+.rcard.ice .big{filter:drop-shadow(0 0 32px var(--ice))}
+@keyframes pop{from{transform:scale(.1) rotate(-30deg);opacity:0}to{transform:none;opacity:1}}
+.name{font-family:var(--title);font-size:clamp(36px,10vw,58px);margin:4px 0;color:#fff;text-shadow:0 0 20px #8b5cffcc,0 3px 0 #3a1a8a}
+.rtag{color:var(--ice);font-weight:900;font-size:18px;margin:6px 0;text-shadow:0 0 14px var(--ice);min-height:4px}
+.rsub{color:var(--sub);font-size:17px;margin:12px 0 4px}
+.claim{margin-top:18px;font-size:21px;padding:18px 38px}
+</style>
+</head>
+<body>
+<div class="aurora"></div>
+<canvas id="fx"></canvas>
+
+<section id="intro">
+  <button class="skip" id="skip">건너뛰기 ›</button>
+  <div class="hero" id="h0">🐉</div>
+  <div class="line" id="l1">단 한 번의 기회.</div>
+  <div class="line" id="l2">당신을 기다리는 특별한 펫이 있어요.</div>
+  <div class="line big" id="l3">100% 무료 입양!</div>
+  <button id="start">✨ 입장하기</button>
+</section>
+
+<section id="home" class="wrap" style="display:none">
+  <span class="tag">🎁 LIMITED EVENT · 기회는 단 1번</span>
+  <h1 class="glow-text">무료 입양하세요<br>펫 받기 사이트!</h1>
+  <p class="lead">룰렛을 돌리면 운명의 펫이 정해져요. 얼음드래곤을 노려보세요! 🧊🐉</p>
+  <div class="grid">
+    <div class="card">
+      <div class="stage"><div class="pointer">▼</div><canvas id="wheel" width="860" height="860"></canvas></div>
+      <button id="spin">🎰 룰렛 돌리기!</button>
+      <div class="note" id="msg">기회는 한 번뿐이에요. 준비되셨나요?</div>
+    </div>
+    <div class="card">
+      <h2>📊 확률표</h2>
+      <div id="rows"></div>
+      <p class="hint">※ 얼음드래곤을 제외한 6마리는 확률이 모두 같아요.</p>
+    </div>
+  </div>
+</section>
+
+<section id="result" style="display:none">
+  <div class="card rcard" id="rcard">
+    <div class="rays"></div>
+    <span class="tag">🎉 CONGRATULATIONS!</span>
+    <div class="big" id="rEmoji"></div>
+    <div class="rtag" id="rTag"></div>
+    <div class="name" id="rName"></div>
+    <p class="rsub">뽑은 펫을 받으려면 아래를 클릭하세요!</p>
+    <a class="claim" id="claim" href="#" target="_blank" rel="noopener">👉 받으려면 여기를 클릭하세요</a>
+  </div>
+</section>
+
+<script>
+// ▼ 나중에 이동할 사이트 주소를 여기에 넣으세요
+const CLAIM_URL = "#";
+
+const RARE=1.9, COMMON=(100-RARE)/6;
+const pets=[
+ {n:"돼지",e:"🐷",p:COMMON,c:"#e0307f"},
+ {n:"얼음드래곤",e:"🐉",p:RARE,c:"#18b8e8",rare:1},
+ {n:"소",e:"🐮",p:COMMON,c:"#6a3ff0"},
+ {n:"딸박",e:"🦇",p:COMMON,c:"#d6243a"},
+ {n:"초박",e:"🦇",p:COMMON,c:"#1f9d55"},
+ {n:"악어",e:"🐊",p:COMMON,c:"#0e8f7a"},
+ {n:"사자",e:"🦁",p:COMMON,c:"#e07a10"}
+];
+const $=id=>document.getElementById(id);
+function saved(){try{return localStorage.getItem("petResult")}catch(e){return null}}
+
+/* ---------- background fx: stars + confetti ---------- */
+const fx=$("fx"),f=fx.getContext("2d");let W,H,stars=[],parts=[];
+function size(){W=fx.width=innerWidth;H=fx.height=innerHeight;stars=Array.from({length:110},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.8+.4,s:Math.random()*.6+.1,t:Math.random()*6}))}
+size();addEventListener("resize",size);
+function burst(ice){
+  const cols=ice?["#6ff0ff","#ffffff","#8b5cff","#ffd23f"]:["#ffd23f","#ff4fa3","#6ff0ff","#8b5cff","#7dff9c"];
+  for(let i=0;i<160;i++)parts.push({x:W/2,y:H*.4,vx:(Math.random()-.5)*16,vy:-Math.random()*16-4,r:Math.random()*7+3,c:cols[i%cols.length],a:Math.random()*6,va:(Math.random()-.5)*.4,life:1});
+}
+function loop(t){
+  f.clearRect(0,0,W,H);
+  stars.forEach(s=>{s.y+=s.s;if(s.y>H){s.y=0;s.x=Math.random()*W}f.globalAlpha=.4+.6*Math.abs(Math.sin(t/700+s.t));f.fillStyle="#fff";f.beginPath();f.arc(s.x,s.y,s.r,0,7);f.fill()});
+  f.globalAlpha=1;
+  parts=parts.filter(p=>p.life>0);
+  parts.forEach(p=>{p.vy+=.35;p.x+=p.vx;p.y+=p.vy;p.vx*=.99;p.a+=p.va;p.life-=.006;f.save();f.globalAlpha=Math.max(p.life,0);f.translate(p.x,p.y);f.rotate(p.a);f.fillStyle=p.c;f.fillRect(-p.r,-p.r/2,p.r*2,p.r);f.restore()});
+  drawWheel(t);
+  requestAnimationFrame(loop);
+}
+
+/* ---------- wheel ---------- */
+const cv=$("wheel"),ctx=cv.getContext("2d"),S=cv.width,C=S/2,R=C-58;let rot=0;
+function drawWheel(t){
+  if($("home").style.display==="none")return;
+  ctx.clearRect(0,0,S,S);
+  // rim
+  ctx.beginPath();ctx.arc(C,C,C-8,0,7);ctx.fillStyle="#1a0f4a";ctx.fill();
+  ctx.lineWidth=8;ctx.strokeStyle="#ffd23f";ctx.stroke();
+  for(let i=0;i<28;i++){
+    const a=i/28*Math.PI*2,on=(i+Math.floor(t/260))%2===0;
+    ctx.beginPath();ctx.arc(C+Math.cos(a)*(C-32),C+Math.sin(a)*(C-32),9,0,7);
+    ctx.fillStyle=on?"#fff6b0":"#a07a10";ctx.shadowColor="#ffd23f";ctx.shadowBlur=on?22:0;ctx.fill();ctx.shadowBlur=0;
+  }
+  ctx.save();ctx.translate(C,C);ctx.rotate(rot*Math.PI/180);
+  let a=-Math.PI/2;
+  pets.forEach(x=>{
+    const w=x.p/100*Math.PI*2;
+    ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,R,a,a+w);ctx.closePath();
+    ctx.fillStyle=x.c;ctx.fill();ctx.lineWidth=5;ctx.strokeStyle="#fff";ctx.stroke();
+    ctx.save();ctx.rotate(a+w/2);ctx.textBaseline="middle";
+    if(x.rare){ctx.font="38px serif";ctx.textAlign="right";ctx.shadowColor="#fff";ctx.shadowBlur=14;ctx.fillText(x.e,R-8,0);ctx.shadowBlur=0}
+    else{
+      ctx.textAlign="right";ctx.font="54px serif";ctx.fillText(x.e,R-14,0);
+      ctx.font="900 42px 'Noto Sans KR',sans-serif";ctx.lineWidth=8;ctx.strokeStyle="rgba(0,0,0,.65)";ctx.lineJoin="round";
+      ctx.strokeText(x.n,R-86,0);ctx.fillStyle="#fff";ctx.fillText(x.n,R-86,0);
+    }
+    ctx.restore();a+=w;
+  });
+  ctx.restore();
+  // hub
+  const g=ctx.createRadialGradient(C-10,C-10,4,C,C,58);g.addColorStop(0,"#fff6b0");g.addColorStop(1,"#e0a010");
+  ctx.beginPath();ctx.arc(C,C,56,0,7);ctx.fillStyle=g;ctx.fill();ctx.lineWidth=6;ctx.strokeStyle="#fff";ctx.stroke();
+  ctx.font="40px serif";ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillStyle="#000";ctx.fillText("🎁",C,C+2);
+}
+
+/* ---------- table ---------- */
+pets.forEach(x=>{
+  const d=document.createElement("div");d.className="row"+(x.rare?" rare":"");
+  d.innerHTML=`<span>${x.e} ${x.n}</span><span class="bar"><i style="width:${Math.max(x.p*5,4)}%;background:${x.c}"></i></span><b>${x.p.toFixed(2)}%</b>`;
+  $("rows").appendChild(d);
+});
+
+/* ---------- flow ---------- */
+function showResult(i,fresh){
+  const x=pets[i];
+  $("intro").classList.add("hide");$("home").style.display="none";
+  $("result").style.display="flex";
+  $("rEmoji").textContent=x.e;$("rName").textContent=x.n;
+  $("rTag").textContent=x.rare?"✨ 초희귀 대박 펫 당첨! ✨":"";
+  $("rcard").classList.toggle("ice",!!x.rare);
+  $("claim").href=CLAIM_URL;
+  scrollTo(0,0);if(fresh)burst(!!x.rare);
+}
+function enterHome(){$("intro").classList.add("hide");$("home").style.display="block"}
+
+const seq=[["h0",300],["l1",1400],["l2",2700],["l3",4100],["start",5100]];
+let timers=seq.map(([id,t])=>setTimeout(()=>$(id).classList.add("on"),t));
+$("skip").onclick=()=>{timers.forEach(clearTimeout);enterHome()};
+$("start").onclick=enterHome;
+
+const prev=saved();
+if(prev!==null&&pets[+prev]){timers.forEach(clearTimeout);showResult(+prev,false)}
+
+$("spin").onclick=()=>{
+  if(saved()!==null)return;
+  const b=$("spin");b.disabled=true;$("msg").textContent="두근두근... 🥁";
+  let r=Math.random()*100,s=0,i=pets.length-1;
+  for(let k=0;k<pets.length;k++){s+=pets[k].p;if(r<s){i=k;break}}
+  let st=0;for(let k=0;k<i;k++)st+=pets[k].p;
+  const ang=(st+pets[i].p*(.15+Math.random()*.7))/100*360;
+  const target=360*8+(360-ang),t0=performance.now(),D=7000;
+  (function go(t){
+    const k=Math.min(1,(t-t0)/D);rot=target*(1-Math.pow(1-k,4));
+    if(k<1)requestAnimationFrame(go);
+    else{try{localStorage.setItem("petResult",String(i))}catch(e){}
+      $("msg").textContent="🎉 "+pets[i].n+" 당첨!";setTimeout(()=>showResult(i,true),1200)}
+  })(t0);
+};
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
